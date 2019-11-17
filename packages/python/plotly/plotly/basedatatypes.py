@@ -34,7 +34,49 @@ from .validators import DataValidator, LayoutValidator, FramesValidator
 #   - Setting a property to Undefined leaves existing value unmodified
 Undefined = object()
 
+import copy
+def merge(source, destination_,*,defaults={},add=True):
+    if defaults is None:
+        defaults={}
+    destination=copy.deepcopy(destination_)
+    destination=removeDefaults(destination,defaults)
+    for key, value in source.items():
+        if isinstance(value, dict):
+            node = copy.deepcopy(destination.setdefault(key, {}))
+            try:
+                oi=defaults.get(key)
+            except Exception as e:
+                raise e
+            destination[key]=merge(value, node,defaults=oi,add=add)
+        else:
+            if key in destination.keys():
+                if isinstance(value,list):
+                    d=destination[key]
+                    destination[key]=value+destination[key] if add else destination[key]
+                else:
+                    destination[key]=[value,destination[key]] if add else destination[key]
+            else:
+                destination[key] = value
 
+    return destination
+
+def removeDefaults(destination,defaults):
+    if defaults is None or len(defaults)==0 :
+        return destination
+    destination2=copy.deepcopy(destination)
+    for key, value in destination.items():
+        if not isinstance(value, dict):
+            if defaults.get(key) is not None:
+                if defaults.get(key) == value :
+                    del destination2[key]
+            else:
+                if defaults.get(key) is None and value is None:
+                    del destination2[key]
+        else:
+            f=removeDefaults(value,defaults.get(key))
+            if len(f)==0:
+                del destination2[key]
+    return destination2
 class BaseFigure(object):
     """
     Base class for all figure types (both widget and non-widget)
