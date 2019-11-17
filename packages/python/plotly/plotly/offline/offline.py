@@ -17,7 +17,7 @@ from ._plotlyjs_version import __plotlyjs_version__
 
 
 __IMAGE_FORMATS = ["jpeg", "png", "webp", "svg"]
-
+__NAME_JS="plotly2.min.js"
 
 def download_plotlyjs(download_url):
     warnings.warn(
@@ -86,7 +86,7 @@ def get_plotlyjs():
     >>> with open('multi_plot.html', 'w') as f:
     ...      f.write(html)
     """
-    path = os.path.join("package_data", "plotly.min.js")
+    path = os.path.join("package_data", __NAME_JS)
     plotlyjs = pkgutil.get_data("plotly", path).decode("utf-8")
     return plotlyjs
 
