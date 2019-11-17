@@ -1,5 +1,19 @@
 import _plotly_utils.basevalidators
 
+class TickTextSideValidator(_plotly_utils.basevalidators.EnumeratedValidator):
+    def __init__(
+        self, plotly_name="ticktextside", parent_name="heatmap.colorbar", **kwargs
+    ):
+        super(TickTextSideValidator, self).__init__(
+            plotly_name=plotly_name,
+            parent_name=parent_name,
+            edit_type=kwargs.pop("edit_type", "colorbars"),
+            role=kwargs.pop("role", "style"),
+            values=kwargs.pop("values", ["right", "left"]),
+            **kwargs
+        )
+        
+import _plotly_utils.basevalidators
 
 class YpadValidator(_plotly_utils.basevalidators.NumberValidator):
     def __init__(self, plotly_name="ypad", parent_name="heatmap.colorbar", **kwargs):
