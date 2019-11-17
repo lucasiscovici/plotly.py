@@ -1819,10 +1819,31 @@ class ColorBar(_BaseTraceHierarchyType):
         """
         return self["yanchor"]
 
-    @yanchor.setter
+    @tick.setter
     def yanchor(self, val):
         self["yanchor"] = val
 
+    # yanchor
+    # -------
+    @property
+    def ticktextside(self):
+        """
+        Sets the side of ticktext
+    
+        The 'ticktextside' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['lefr', 'right']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticktextside"]
+
+    @ticktextside.setter
+    def ticktextside(self, val):
+        self["ticktextside"] = val
+        
     # ypad
     # ----
     @property
@@ -2051,6 +2072,7 @@ class ColorBar(_BaseTraceHierarchyType):
     def __init__(
         self,
         arg=None,
+        ticktextside=None,
         bgcolor=None,
         bordercolor=None,
         borderwidth=None,
@@ -2367,7 +2389,7 @@ an instance of plotly.graph_objs.heatmap.ColorBar"""
         self._validators["y"] = v_colorbar.YValidator()
         self._validators["yanchor"] = v_colorbar.YanchorValidator()
         self._validators["ypad"] = v_colorbar.YpadValidator()
-
+        self._validators["ticktextside"]=v_colorbar.TickTextSideValidator()
         # Populate data dict with properties
         # ----------------------------------
         _v = arg.pop("bgcolor", None)
@@ -2464,7 +2486,8 @@ an instance of plotly.graph_objs.heatmap.ColorBar"""
         self["yanchor"] = yanchor if yanchor is not None else _v
         _v = arg.pop("ypad", None)
         self["ypad"] = ypad if ypad is not None else _v
-
+        _v = arg.pop("ticktextside", None)
+        self["ticktextside"] = ticktextside if ticktextside is not None else _v
         # Process unknown kwargs
         # ----------------------
         self._process_kwargs(**dict(arg, **kwargs))
