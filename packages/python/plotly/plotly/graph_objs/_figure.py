@@ -16256,6 +16256,10 @@ class Figure(BaseFigure):
             fn(obj)
 
         return self
+    
+    def add_title(self,title="Title",marginT=50):
+        return self.update_layout(title=title,margin=dict(t=marginT))
+    
     def update_config(self,
             staticPlot=False,
             plotlyServerURL="https://plot.ly",
