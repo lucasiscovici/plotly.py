@@ -431,7 +431,7 @@ class BaseFigure(object):
         import plotly.io as pio
 
         if pio.renderers.render_on_display and pio.renderers.default:
-            pio.show(self)
+            self.show(self)
         else:
             print(repr(self))
 
@@ -2779,8 +2779,9 @@ Invalid property path '{key_path_str}' for layout
     # Note that docstrings are auto-generated in plotly/_docstring_gen.py
     def show(self, *args, **kwargs):
         import plotly.io as pio
-
-        return pio.show(self, *args, **kwargs)
+        kwargs= {} if kwargs is None else kwargs
+        meme=merge(dict(config=self._config),kwargs,add=F)
+        return pio.show(self,*args,**meme) if hasattr(self,"_config") else pio.show(self,*args,**kwargs)
 
     def to_json(self, *args, **kwargs):
         import plotly.io as pio
